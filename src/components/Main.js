@@ -3,19 +3,13 @@ import './Main.css';
 
 /** Componente statefull - Com estado */
 export default class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      text: '',
-    };
-    this.handleChangeInput = this.handleChangeInput.bind(this);
+  state = {
+    text: '',
   }
 
-  handleChangeInput(e) {
-    const { value } = e.target;
-    this.setState({
-      text: value,
-    });
+  handleChangeInput = (e) => {
+    const { value: text } = e.target;
+    this.setState({ text });
   }
 
   render() {
