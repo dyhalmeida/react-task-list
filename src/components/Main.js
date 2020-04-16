@@ -39,6 +39,7 @@ export default class Main extends Component {
     newTasks.splice(index, 1);
     this.setState({
       tasks: newTasks,
+      text: '',
     });
   }
 
