@@ -32,6 +32,16 @@ export default class Main extends Component {
     this.setState({ text });
   }
 
+  handleClickDelete = (e, index) => {
+    e.preventDefault();
+    const { tasks } = this.state;
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    this.setState({
+      tasks: newTasks,
+    });
+  }
+
   render() {
     const { text, tasks } = this.state;
     return (
@@ -45,12 +55,16 @@ export default class Main extends Component {
         </form>
 
         <ul className="tasks">
-          {tasks.map((task) => (
+          {tasks.map((task, index) => (
             <li key={task}>
               {task}
               <div>
                 <FaEdit className="edit buttons-task" title={`Editar ${task}`} />
-                <FaWindowClose className="delete buttons-task" title={`Excluir ${task}`} />
+                <FaWindowClose
+                  className="delete buttons-task"
+                  title={`Excluir ${task}`}
+                  onClick={(e) => { this.handleClickDelete(e, index); }}
+                />
               </div>
             </li>
           ))}
