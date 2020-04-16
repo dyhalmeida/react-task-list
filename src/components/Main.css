@@ -46,6 +46,11 @@
   padding: 10px;
 }
 
+.tasks li div {
+  display: flex;
+  align-items: center;
+}
+
 .tasks li:hover {
   background: #51c5de;
   transition: all 600ms;
