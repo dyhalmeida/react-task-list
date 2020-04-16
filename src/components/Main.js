@@ -14,6 +14,19 @@ export default class Main extends Component {
     ],
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { text, tasks } = this.state;
+
+    /** Verifica se a tarefa não é duplicada */
+    if (tasks.indexOf(text) === -1) {
+      const newTasks = [...tasks, text];
+      this.setState({
+        tasks: newTasks,
+      });
+    }
+  }
+
   handleChangeInput = (e) => {
     const { value: text } = e.target;
     this.setState({ text });
@@ -24,7 +37,7 @@ export default class Main extends Component {
     return (
       <div className="main">
         <h1>Lista de Tarefas</h1>
-        <form action="#" className="form">
+        <form action="#" className="form" onSubmit={this.handleSubmit}>
           <input type="text" onChange={this.handleChangeInput} value={text} />
           <button type="submit">
             <FaPlus />
