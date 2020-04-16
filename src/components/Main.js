@@ -12,19 +12,34 @@ export default class Main extends Component {
       'Estudar inglês',
       'Estudar Javascript',
     ],
+    index: -1,
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { text, tasks } = this.state;
+    const { text, tasks, index } = this.state;
 
-    /** Verifica se a tarefa não é duplicada */
-    if (tasks.indexOf(text) === -1) {
-      const newTasks = [...tasks, text];
+    /** Verifica se a tarefa é duplicada */
+    if (tasks.indexOf(text.trim()) !== -1) return;
+
+    const newTasks = [...tasks];
+
+    /** Inclusão */
+    if (index === -1) {
       this.setState({
-        tasks: newTasks,
+        tasks: [...newTasks, text.trim()],
+        text: '',
       });
+      return;
     }
+
+    /** Edição */
+    newTasks[index] = text.trim();
+    this.setState({
+      tasks: newTasks,
+      text: '',
+      index: -1,
+    });
   }
 
   handleChangeInput = (e) => {
@@ -39,7 +54,15 @@ export default class Main extends Component {
     newTasks.splice(index, 1);
     this.setState({
       tasks: newTasks,
-      text: '',
+    });
+  }
+
+  handleClickEdit = (e, index) => {
+    e.preventDefault();
+    const { tasks } = this.state;
+    this.setState({
+      index,
+      text: tasks[index],
     });
   }
 
@@ -60,11 +83,15 @@ export default class Main extends Component {
             <li key={task}>
               {task}
               <div>
-                <FaEdit className="edit buttons-task" title={`Editar ${task}`} />
+                <FaEdit
+                  className="edit buttons-task"
+                  title={`Editar ${task}`}
+                  onClick={(e) => this.handleClickEdit(e, index)}
+                />
                 <FaWindowClose
                   className="delete buttons-task"
                   title={`Excluir ${task}`}
-                  onClick={(e) => { this.handleClickDelete(e, index); }}
+                  onClick={(e) => this.handleClickDelete(e, index)}
                 />
               </div>
             </li>
