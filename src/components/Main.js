@@ -7,12 +7,29 @@ import './Main.css';
 export default class Main extends Component {
   state = {
     text: '',
-    tasks: [
-      'Assistir séries',
-      'Estudar inglês',
-      'Estudar Javascript',
-    ],
+    tasks: [],
     index: -1,
+  }
+
+  /**
+   * Método executa quando o componente é renderizado
+   */
+  componentDidMount() {
+    const tasks = JSON.parse(localStorage.getItem('tasks'));
+    if (!tasks) return;
+    this.setState({
+      tasks,
+    });
+  }
+
+  /**
+   * Método executa a cada atualização de estado do componente
+   * prevState: Estado anterior do componente
+   */
+  componentDidUpdate(prevProps, prevState) {
+    const { tasks } = this.state;
+    if (tasks === prevState.tasks) return;
+    localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
   handleSubmit = (e) => {
